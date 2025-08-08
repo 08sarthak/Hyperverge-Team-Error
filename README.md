@@ -14,7 +14,7 @@ This repository contains both backend (Python/FastAPI) and frontend (React) code
 - [Intelligent Lesson Plan & Assessment Workflows](#intelligent-lesson-plan--assessment-workflows)
 - [API Overview](#api-overview)
 - [Testing](#testing)
-
+- [Prompt Log](#prompt_log.txt)
 ---
 
 ## Features
