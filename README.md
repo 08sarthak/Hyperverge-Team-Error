@@ -12,23 +12,19 @@ This repository contains both backend (Python/FastAPI) and frontend (React) code
 - [Setup](#setup)
 - [How It Works](#how-it-works)
 - [Intelligent Lesson Plan & Assessment Workflows](#intelligent-lesson-plan--assessment-workflows)
+- [API Overview](#api-overview)
 - [Testing](#testing)
-- [Contributing](#contributing)
-- [Community](#community)
-- [Documentation](#documentation)
-- [License](#license)
-- [Roadmap](#roadmap)
 
 ---
 
 ## Features
 
-- AI-driven question coaching for deeper student thinking
-- Personalized and RAG-enhanced lesson plan generation
-- Topic-specific content retrieval with web resource integration
-- Modular backend and frontend architecture for full LMS functionality
-- Continuous integration with automated testing and coverage reporting
-- Active roadmap and community feedback loop
+- **RAG-Enhanced Lesson Plan Generation:** Retrieval Augmented Generation (RAG) for context-aware, adaptive lesson plans.
+- **Reading Level Estimation:** Automatically estimate student reading levels and tailor content accordingly.
+- **Duplicate Detection:** Prevents content overlap using advanced prompting and structured input validation.
+- **Structured Inputs:** All flows are designed to operate on well-defined, structured data, minimizing ambiguity.
+- **LangGraph Structures:** The core logic is implemented via flexible graph-based workflows, enabling modular and extensible pipelines.
+- **Parallel Execution:** Graph nodes can be executed in parallel, drastically reducing execution time for complex processes.
 
 ---
 
@@ -80,31 +76,34 @@ Basic steps:
 
 ## How It Works
 
-### Backend
+SensAI leverages advanced AI workflows, RAG, and graph-based orchestration to deliver individualized learning for every student and intelligent planning tools for educators.
 
-- Built with **FastAPI**, the backend serves RESTful endpoints for all core LMS and AI features.
-- **Key modules/routes include:**
-  - `/auth`: Authentication (sign-in, sign-up, JWT tokens, etc.)
-  - `/users`, `/organizations`, `/cohorts`, `/courses`, `/milestones`, `/scorecards`, `/tasks`, `/lessonplan`, `/student`, etc.: User, organization, and educational content management.
-  - `/ai` and `/chat`: AI-driven interactions, including question answering, chat coaching, and real-time feedback.
-  - `/file`: File upload and download.
-  - `/code`: Code execution and evaluation (uses Judge0 or similar).
-- **AI Features:**  
-  AI chat endpoints use modern language models to analyze student input and provide tailored feedback. The system can route tasks to different LLMs (e.g., GPT-4o for general, O3 for reasoning tasks).
-- **RAG-Enhanced Lesson Plan Generation**  
-  SensAI leverages Retrieval Augmented Generation (RAG) for lesson planning, combining topic-specific retrieval, web resource integration, and iterative review.
+### Educator Journey
 
-- **Middleware:**  
-  - CORS enabled for frontend-backend interaction.
-  - Bugsnag integration for error monitoring.
-- **Testing:**  
-  Uses `pytest` for API and logic testing. Run `./run_tests.sh` for full test and coverage report.
+Educators can create, review, and refine lesson plans using a variety of intelligent tools:
 
-### Frontend
+- **Lesson Plan**: Generate a lesson plan from a detailed prompt or topic.  
+  *(Route: see `sensai-ai/src/api/routes/lessonplan.py`)*
 
-- Built with React (Next.js).
-- Connects to backend for authentication, course/task management, and AI chat.
-- Includes components like `LearningMaterialViewer`, interactive chat, and dashboards.
+- **Lesson Plan from Topic**: Quickly create a plan focused on a specific topic.
+
+- **Lesson Plan Auto**: (Future scope) A unified API that merges the above, simplifying and automating lesson planning.
+
+- **Review Lesson Plan**: Automatically reviews generated lesson plans and triggers revisions if they do not meet quality, coverage, or personalization criteria.
+
+### Student Journey
+
+Students are guided through a two-part, adaptive assessment that culminates in a fully personalized lesson plan:
+
+- **Assessment**:  
+  Students provide basic info (class, board, subject, chapter number, etc.), which is stored in a unique thread per student.  
+  *(Route: see `sensai-ai/src/api/routes/student.py`)*
+
+- **Assessment/Continue**:  
+  The system continues the thread with 2–3 behavioral questions to understand learning styles, habits, and routines, followed by 10 chapter-specific questions to assess current understanding.
+
+- **Personalized Learning Plan**:  
+  Using behavioral and academic insights, SensAI generates an optimal, individualized learning plan for each student.
 
 ---
 
@@ -112,11 +111,9 @@ Basic steps:
 
 SensAI supports two tightly integrated, AI-driven flows that power both personalized assessment and RAG-enhanced lesson plan generation.
 
----
-
 ### 1. Personalized Assessment & Lesson Plan Generation
 
-This workflow fetches educational content, runs a conversational assessment using an LLM, processes the results, and generates a lesson plan tailored to the learner’s needs.
+This workflow fetches educational content, conducts a conversational assessment using an LLM, processes the results, and generates a lesson plan precisely tailored to the learner’s needs.
 
 ```mermaid
 graph TD
@@ -138,17 +135,17 @@ graph TD
 ```
 
 **Node Details:**
-- **fetch_content:** Loads educational content from MongoDB for a given thread.
-- **bootstrap:** Injects a system prompt to prime the assessment conversation.
-- **assess:** Uses an LLM for interactive, conversational assessment with the learner.
-- **process_assessment:** Analyzes assessment outcomes and extracts actionable data.
-- **generate_plan:** Uses assessment outcomes to create a personalized lesson plan.
+- **fetch_content:** Loads educational content for the relevant thread.
+- **bootstrap:** Injects the system prompt for assessment.
+- **assess:** Conducts interactive, conversational assessment using LLM.
+- **process_assessment:** Extracts actionable data and finalizes completion.
+- **generate_plan:** Produces a personalized lesson plan based on all assessment results.
 
 ---
 
 ### 2. RAG-Enhanced Lesson Plan Generation
 
-This workflow combines Retrieval-Augmented Generation (RAG) for lesson planning with iterative review and revision for high-quality results.
+This workflow utilizes Retrieval-Augmented Generation (RAG) for lesson planning, with quality checks and revisions for optimal results.
 
 ```mermaid
 graph TD
@@ -167,21 +164,37 @@ graph TD
 ```
 
 **Node Details:**
-- **prompt:** Crafts a comprehensive user prompt using parameters (grade, subject, topic, lectures, etc.)
-- **points:** Generates a lesson plan outline using RAG techniques.
-- **detailed_lesson_plan:** Produces detailed, lecture-wise lesson content, leveraging retrieved resources.
-- **review_lesson_plan:** Reviews the lesson plan for completeness and quality; may trigger revision or approve and finish.
+- **prompt:** Builds a detailed and structured prompt from all lesson parameters.
+- **points:** Generates a lesson outline with RAG techniques.
+- **detailed_lesson_plan:** Expands outline to detailed, lecture-wise content.
+- **review_lesson_plan:** Reviews the output for accuracy, relevance, and quality, and triggers revision if needed.
 
 ---
 
-### 🚀 How These Workflows Empower SensAI
+### 🚀 Why SensAI's Approach is Unique
 
-- **Personalized:** Every lesson plan is adapted based on real learner assessment.
-- **AI-Augmented:** Conversational LLMs and RAG combine for deep reasoning and rich content generation.
-- **Quality-First:** Automated review/revision ensures lesson plans are accurate and effective.
-- **Modular:** Each step is a distinct, testable node for easier maintenance and extension.
+- **Truly Personalized:** Every plan is based on a blend of behavioral and academic data.
+- **AI-Augmented:** Sophisticated prompting, reading level estimation, and duplicate detection are seamlessly integrated.
+- **Flexible & Extensible:** Graph-based architecture (LangGraph) makes it easy to extend, customize, or parallelize steps for faster execution.
+- **Quality Assurance:** Automated review and revision cycles ensure every lesson plan meets rigorous standards.
 
-For more technical details, see the implementation in `app/utils_rag/graph_rag.py` and the assessment modules.
+---
+
+## API Overview
+
+### Educator-Facing Endpoints
+- `/lessonplan/` – Generate a lesson plan from a prompt.
+- `/lessonplan/from-topic` – Generate a lesson plan based on a topic.
+- `/lessonplan/auto` – (Planned) Unified lesson plan generation endpoint.
+- `/lessonplan/review` – Review and revise a generated lesson plan.
+
+*See: `sensai-ai/src/api/routes/lessonplan.py`*
+
+### Student-Facing Endpoints
+- `/student/assessment` – Initiate student assessment and store basic info.
+- `/student/assessment/continue` – Continue assessment, ask behavioral and academic questions, and create a tailored learning plan.
+
+*See: `sensai-ai/src/api/routes/student.py`*
 
 ---
 
@@ -199,6 +212,3 @@ pip install -r requirements-dev.txt
 npm run test:ci
 # (Optional) Upload coverage to Codecov
 ```
-
----
-
