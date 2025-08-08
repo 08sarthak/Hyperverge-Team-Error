@@ -178,24 +178,6 @@ graph TD
 
 ---
 
-## API Overview
-
-### Educator-Facing Endpoints
-- `/lessonplan/` – Generate a lesson plan from a prompt.
-- `/lessonplan/from-topic` – Generate a lesson plan based on a topic.
-- `/lessonplan/auto` – (Planned) Unified lesson plan generation endpoint.
-- `/lessonplan/review` – Review and revise a generated lesson plan.
-
-*See: `sensai-ai/src/api/routes/lessonplan.py`*
-
-### Student-Facing Endpoints
-- `/student/assessment` – Initiate student assessment and store basic info.
-- `/student/assessment/continue` – Continue assessment, ask behavioral and academic questions, and create a tailored learning plan.
-
-*See: `sensai-ai/src/api/routes/student.py`*
-
----
-
 ## Testing
 
 **Backend:**
