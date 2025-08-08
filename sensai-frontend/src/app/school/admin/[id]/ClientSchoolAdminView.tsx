@@ -11,6 +11,7 @@ import CohortCard from "@/components/CohortCard";
 import InviteMembersDialog from "@/components/InviteMembersDialog";
 import CreateCohortDialog from "@/components/CreateCohortDialog";
 import CreateCourseDialog from '@/components/CreateCourseDialog';
+import AICourseCreationButton from '@/components/AICourseCreationButton';
 import Toast from "@/components/Toast";
 import ConfirmationDialog from "@/components/ConfirmationDialog";
 import { Cohort, TeamMember, Course } from "@/types";
@@ -552,13 +553,14 @@ export default function ClientSchoolAdminView({ id }: { id: string }) {
                                 <div>
                                     {school.courses.length > 0 ? (
                                         <>
-                                            <div className="flex justify-start items-center mb-6">
+                                            <div className="flex justify-start items-center mb-6 gap-4">
                                                 <button
                                                     onClick={() => setIsCreateCourseDialogOpen(true)}
                                                     className="px-6 py-3 bg-white text-black text-sm font-medium rounded-full hover:opacity-90 transition-opacity inline-block cursor-pointer"
                                                 >
                                                     Create course
                                                 </button>
+                                                <AICourseCreationButton schoolId={id} />
                                             </div>
 
                                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -574,12 +576,15 @@ export default function ClientSchoolAdminView({ id }: { id: string }) {
                                         <div className="flex flex-col items-center justify-center py-20">
                                             <h2 className="text-4xl font-light mb-4">What if your next big idea became a course?</h2>
                                             <p className="text-gray-400 mb-8">It might be easier than you think</p>
-                                            <button
-                                                onClick={() => setIsCreateCourseDialogOpen(true)}
-                                                className="px-6 py-3 bg-white text-black text-sm font-medium rounded-full hover:opacity-90 transition-opacity inline-block cursor-pointer"
-                                            >
-                                                Create course
-                                            </button>
+                                            <div className="flex gap-4">
+                                                <button
+                                                    onClick={() => setIsCreateCourseDialogOpen(true)}
+                                                    className="px-6 py-3 bg-white text-black text-sm font-medium rounded-full hover:opacity-90 transition-opacity inline-block cursor-pointer"
+                                                >
+                                                    Create course
+                                                </button>
+                                                <AICourseCreationButton schoolId={id} />
+                                            </div>
                                         </div>
                                     )}
                                 </div>
