@@ -210,3 +210,7 @@ pip install -r requirements-dev.txt
 npm run test:ci
 # (Optional) Upload coverage to Codecov
 ```
+
+---
+
+**Submitted By** - Team Error (Sarthak Gupta & Ninaad Saxena)
