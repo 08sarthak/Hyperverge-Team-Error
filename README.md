@@ -109,7 +109,7 @@ Students are guided through a two-part, adaptive assessment that culminates in a
 
 SensAI supports two tightly integrated, AI-driven flows that power both personalized assessment and RAG-enhanced lesson plan generation.
 
-### 1. Personalized Assessment & Lesson Plan Generation
+### 1. Learner's Journey Graph
 
 This workflow fetches educational content, conducts a conversational assessment using an LLM, processes the results, and generates a lesson plan precisely tailored to the learner’s needs.
 
@@ -141,7 +141,7 @@ graph TD
 
 ---
 
-### 2. RAG-Enhanced Lesson Plan Generation
+### 2. Educator's Journey Graph
 
 This workflow utilizes Retrieval-Augmented Generation (RAG) for lesson planning, with quality checks and revisions for optimal results.
 
