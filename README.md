@@ -13,7 +13,7 @@ This repository contains both backend (Python/FastAPI) and frontend (React) code
 - [How It Works](#how-it-works)
 - [Intelligent Lesson Plan & Assessment Workflows](#intelligent-lesson-plan--assessment-workflows)
 - [Testing](#testing)
-- [Prompt Log](#href='https://github.com/08sarthak/Hyperverge-Team-Error/blob/main/prompt_log.txt')
+- [Prompt Log](https://github.com/08sarthak/Hyperverge-Team-Error/blob/main/prompt_log.txt)
 ---
 
 ## Features
