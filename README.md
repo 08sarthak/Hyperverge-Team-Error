@@ -1,7 +1,5 @@
 # SensAI
 
-[![codecov](https://codecov.io/gl/hvacademy/sensai-ai/branch/main/graph/badge.svg)](https://codecov.io/gl/hvacademy/sensai-ai)
-
 SensAI is an AI-first Learning Management System (LMS) enabling educators to teach smarter and reach further. SensAI coaches students through questions that develop deeper thinking—just like you would, but for every student and all the time.
 
 This repository contains both backend (Python/FastAPI) and frontend (React) code for SensAI.
