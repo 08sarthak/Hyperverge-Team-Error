@@ -1,77 +1,129 @@
-## RAG-Enhanced Lesson Plan Generation Graph
+# SensAI
 
-**File Location:** `app/utils_rag/graph_rag.py`  
-**State Type:** `RagLessonPlanStateWithReview`
+[![codecov](https://codecov.io/gl/hvacademy/sensai-ai/branch/main/graph/badge.svg)](https://codecov.io/gl/hvacademy/sensai-ai)
 
-Enhanced workflow using RAG (Retrieval Augmented Generation) for lesson plan creation
+SensAI is an AI-first Learning Management System (LMS) which enables educators to teach smarter and reach further. SensAI coaches students through questions that develop deeper thinking—just like you would, but for every student and all the time.
 
-### 🎯 Key Features
+This repository contains both backend (Python/FastAPI) and frontend (React) code for SensAI.  
+- **Backend**: Handles AI chat, user management, tasks, scoring, and more.
+- **Frontend**: User interface for educators and learners.
 
-- RAG-enhanced content generation
-- Topic-specific retrieval
-- Enhanced web resource fetching
-- Quality review and revision
-- Structured output with RAG agents
+---
 
-### 📊 Graph Structure
+## Setup
 
-```mermaid
-graph TD
-    prompt["prompt[generate_user_prompt]Generates user prompt with lesson plan p..."]
-    points["points[points_lesson_plan_generator]Generates lesson plan outline using RAG ..."]
-    detailed_lesson_plan["detailed_lesson_plan[detailed_lesson_plan_generator]Generates detailed RAG-enhanced lesson p..."]
-    review_lesson_plan["review_lesson_plan[review_lesson_plan_node]Reviews RAG-generated lesson plan for qu..."]
-    START(["🚀 START"])
-    END(["🏁 END"])
-    START --> prompt
-    prompt --> points
-    points --> detailed_lesson_plan
-    detailed_lesson_plan --> review_lesson_plan
-    review_lesson_plan -->|"revise"| detailed_lesson_plan
-    review_lesson_plan -->|"approve"| END
-    classDef startEnd fill:#667eea,stroke:#764ba2,stroke-width:3px,color:#fff
-    classDef processNode fill:#f8fafc,stroke:#667eea,stroke-width:2px
-    class START,END startEnd
-    class prompt,points,detailed_lesson_plan,review_lesson_plan processNode
+### Backend (Python/FastAPI)
+
+1. **Clone the repository**  
+   ```bash
+   git clone https://github.com/08sarthak/Hyperverge-Team-Error.git
+   cd Hyperverge-Team-Error/sensai-ai
+   ```
+
+2. **Install dependencies**  
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Environment variables**  
+   - Copy `.env.example` to `.env` and fill in required settings (DB connection, API keys, etc.).
+
+4. **Database setup**  
+   - Set up your database as per the environment file.
+   - Run migrations if available (see project docs for details).
+
+5. **Run the backend server**  
+   ```bash
+   uvicorn src.api.main:app --reload
+   ```
+   The API will be available at `http://localhost:8000`.
+
+### Frontend (React/Next.js)
+
+See the `sensai-frontend` directory for complete instructions.  
+Basic steps:
+1. Ensure backend is running.
+2. Install Node.js (if not already).
+3. Clone and set up frontend:
+   ```bash
+   cd ../sensai-frontend
+   npm ci
+   cp .env.example .env.local
+   # Edit .env.local as needed (Judge0 keys, OAuth, etc.)
+   npm run dev
+   ```
+   App will be available at `http://localhost:3000`.
+
+---
+
+## How it works
+
+### Backend
+
+- Built with **FastAPI**, the backend serves RESTful endpoints for all core LMS and AI features.
+- **Key modules/routes include:**
+  - `/auth`: Authentication (sign-in, sign-up, JWT tokens, etc.)
+  - `/users`, `/organizations`, `/cohorts`, `/courses`, `/milestones`, `/scorecards`, `/tasks`, `/lessonplan`, `/student`, etc.: User, organization, and educational content management.
+  - `/ai` and `/chat`: AI-driven interactions, including question answering, chat coaching, and real-time feedback.
+  - `/file`: File upload and download.
+  - `/code`: Code execution and evaluation (uses Judge0 or similar).
+- **AI Features**:  
+  AI chat endpoints use modern language models to analyze student input and provide tailored feedback. The system can route tasks to different LLMs (e.g., GPT-4o for general, O3 for reasoning tasks).
+- **Middleware**:  
+  - CORS enabled for frontend-backend interaction.
+  - Bugsnag integration for error monitoring.
+- **Testing**:  
+  Uses `pytest` for API and logic testing. Run `./run_tests.sh` for full test and coverage report.
+
+### Frontend
+
+- Built with React (Next.js).
+- Connects to backend for authentication, course/task management, and AI chat.
+- Includes components like `LearningMaterialViewer`, interactive chat, and dashboards.
+
+---
+
+## Testing
+
+**Backend:**
+```bash
+pip install -r requirements-dev.txt
+./run_tests.sh
+# Coverage report: coverage_html/index.html
 ```
 
-### 🔧 Node Details
+**Frontend:**
+```bash
+npm run test:ci
+# (Optional) Upload coverage to Codecov
+```
 
+---
 
-#### prompt
-- **Function:** `generate_user_prompt`
-- **Description:** Generates user prompt with lesson plan parameters including topic
-- **Inputs:** `grade`, `subject`, `chapter_number`, `chapter_name`, `number_of_lecture`, `duration_of_lecture`, `class_strength`, `content`, `topic`
-- **Outputs:** `user_prompt`
+## Contributing
 
-#### points
-- **Function:** `points_lesson_plan_generator`
-- **Description:** Generates lesson plan outline using RAG techniques
-- **Inputs:** `user_prompt`
-- **Outputs:** `lesson_plan_points`
+See [CONTRIBUTING.md](sensai-ai/docs/CONTRIBUTING.md) for details.
 
-#### detailed_lesson_plan
-- **Function:** `detailed_lesson_plan_generator`
-- **Description:** Generates detailed RAG-enhanced lesson plan content
-- **Inputs:** `lesson_plan_points`, `number_of_lecture`, `structured_output`
-- **Outputs:** `lesson_plan`, `revision_count`
+---
 
-#### review_lesson_plan
-- **Function:** `review_lesson_plan_node`
-- **Description:** Reviews RAG-generated lesson plan for quality
-- **Inputs:** `lesson_plan`, `grade`, `subject`, `language`
-- **Outputs:** `review_results`, `needs_revision`, `review_completed`
+## Community
 
+Join our [WhatsApp group](https://chat.whatsapp.com/LmiulDbWpcXIgqNK6fZyxe) for discussions around AI + Education.
 
-### 🔄 Flow Control
+---
 
-**Regular Edges:**
-- `START` → `prompt`
-- `prompt` → `points`
-- `points` → `detailed_lesson_plan`
-- `detailed_lesson_plan` → `review_lesson_plan`
+## Documentation
 
-**Conditional Edges:**
-- **review_lesson_plan** (`should_revise_decision`):
-  - `revise` → `detailed_lesson_plan`
-  - `approve` → `END`
+For more, see [docs.sensai.hyperverge.org](https://docs.sensai.hyperverge.org) or the in-repo docs folder.
+
+---
+
+## License
+
+GNU Affero General Public License. See `LICENSE` for details.
+
+---
+
+## Roadmap
+
+Check out our [public roadmap](https://hyperverge.notion.site/fa1dd0cef7194fa9bf95c28820dca57f?v=ec52c6a716e94df180dcc8ced3d87610) and let us know what you think we should build next!
