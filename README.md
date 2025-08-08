@@ -82,28 +82,26 @@ SensAI leverages advanced AI workflows, RAG, and graph-based orchestration to de
 
 Educators can create, review, and refine lesson plans using a variety of intelligent tools:
 
-- **Lesson Plan**: Generate a lesson plan from a detailed prompt or topic.  
+- `@router.post("/Lesson_Plan")`: Generate a lesson plan from the stored database, deriving study material from CBSE, ICSE, State Board, etc. portals  
   *(Route: see `sensai-ai/src/api/routes/lessonplan.py`)*
 
-- **Lesson Plan from Topic**: Quickly create a plan focused on a specific topic.
+- `@router.post("/Lesson_Plan_from_Topic")`: Mainly focused on generating lesson plans from the study material provided by the educator, using RAG to transcribe the material and generate the lesson plan
 
-- **Lesson Plan Auto**: (Future scope) A unified API that merges the above, simplifying and automating lesson planning.
+- `@router.post("/Lesson_Plan_auto")`: (Future scope) A unified API that merges the above, simplifying and automating lesson planning.
 
-- **Review Lesson Plan**: Automatically reviews generated lesson plans and triggers revisions if they do not meet quality, coverage, or personalization criteria.
+- `@router.post("/review_lesson_plan")`: Automatically reviews generated lesson plans and triggers revisions if they do not meet quality, coverage, or personalization criteria.
 
 ### Student Journey
 
 Students are guided through a two-part, adaptive assessment that culminates in a fully personalized lesson plan:
 
-- **Assessment**:  
+- `@router.post("/assessment")`:  
   Students provide basic info (class, board, subject, chapter number, etc.), which is stored in a unique thread per student.  
   *(Route: see `sensai-ai/src/api/routes/student.py`)*
 
-- **Assessment/Continue**:  
+- `@router.post("/assessment/continue")`:  
   The system continues the thread with 2–3 behavioral questions to understand learning styles, habits, and routines, followed by 10 chapter-specific questions to assess current understanding.
-
-- **Personalized Learning Plan**:  
-  Using behavioral and academic insights, SensAI generates an optimal, individualized learning plan for each student.
+  Using these behavioral and academic insights, SensAI generates an optimal, individualized learning plan for each student.
 
 ---
 
